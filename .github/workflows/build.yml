@@ -12,7 +12,9 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - uses: android-actions/setup-android@v3
+      # ubuntu-latest already provides the Android SDK (ANDROID_HOME), so no
+      # extra SDK setup step is needed (and setup-android@v3 currently breaks
+      # trying to install the removed "tools" package).
       - name: Build
         run: |
           chmod +x gradlew
