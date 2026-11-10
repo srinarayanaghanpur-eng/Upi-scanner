@@ -1,5 +1,8 @@
 name: Build APK
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,12 +13,11 @@ jobs:
           distribution: temurin
           java-version: 17
       - uses: android-actions/setup-android@v3
-      - run: |
-          unzip -q QrUpiScanner.zip
-          cd QrUpiScanner
+      - name: Build
+        run: |
           chmod +x gradlew
           ./gradlew assembleDebug assembleRelease --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: apks
-          path: QrUpiScanner/app/build/outputs/apk/**/*.apk
+          path: app/build/outputs/apk/**/*.apk
